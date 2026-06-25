@@ -160,7 +160,7 @@ async function seed() {
   await db.collection("questions").doc("default").set({ questions });
   console.log("✓ Seeded questions/default with 11 questions");
 
-  await db.collection("config").doc("questionPrompt").set({
+  await db.collection("questionConfig").doc("questionPrompt").set({
     prompt: questionPrompt,
     updatedAt: new Date(),
   });

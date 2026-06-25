@@ -86,7 +86,7 @@ export const generateDailyQuestions = onSchedule(
       try {
       // Read customisable prompt from Firestore
         const configSnap = await db
-            .collection("config").doc("questionPrompt").get();
+            .collection("questionConfig").doc("questionPrompt").get();
         const prompt = configSnap.data()?.prompt as string | undefined;
 
         if (!prompt) {

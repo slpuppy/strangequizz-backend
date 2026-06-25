@@ -67,3 +67,6 @@ node_modules/
 
 # Firebase service account key
 service-account.json
+
+# macOS
+.DS_Store

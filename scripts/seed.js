@@ -164,7 +164,14 @@ async function seed() {
     prompt: questionPrompt,
     updatedAt: new Date(),
   });
-  console.log("✓ Seeded config/questionPrompt");
+  console.log("✓ Seeded questionConfig/questionPrompt");
+
+  await db.collection("settings").doc("notification").set({
+    title: "The Strange Quizz is ready 🧠",
+    body: "Today's questions just dropped. How strange are you?",
+    updatedAt: new Date(),
+  });
+  console.log("✓ Seeded settings/notification");
 
   process.exit(0);
 }

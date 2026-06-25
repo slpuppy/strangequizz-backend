@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "firebase-admin": "^14.1.0"
+    "firebase-admin": "^14.1.0",
+    "google-auth-library": "^10.9.0",
+    "node-fetch": "^2.7.0"
   }
 }

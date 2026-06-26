@@ -3,7 +3,4 @@ import * as admin from "firebase-admin";
 admin.initializeApp();
 
 export {generateDailyQuestions} from "./questions/generate";
-export {
-  scheduledEngagementNotification,
-  triggerEngagementNotification,
-} from "./notifications/engagement";
+export {triggerEngagementNotification} from "./notifications/engagement";

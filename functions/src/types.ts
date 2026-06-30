@@ -5,3 +5,8 @@ export interface RawQuestion {
   answer3: string;
   rightAnswer: string;
 }
+
+export interface ClaudeResponse {
+  questions: RawQuestion[];
+  themes: string[];
+}

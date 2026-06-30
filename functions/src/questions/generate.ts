@@ -3,8 +3,8 @@ import {defineSecret} from "firebase-functions/params";
 import * as admin from "firebase-admin";
 import {CloudTasksClient} from "@google-cloud/tasks";
 import Anthropic from "@anthropic-ai/sdk";
-import {RawQuestion} from "../types";
-import {todayKey, fetchRecentQuestions, validate, enrich} from "./helpers";
+import {ClaudeResponse} from "../types";
+import {todayKey, fetchRecentThemes, validate, enrich} from "./helpers";
 
 const anthropicKey = defineSecret("ANTHROPIC_API_KEY");
 const notificationSecret = defineSecret("NOTIFICATION_TRIGGER_SECRET");
@@ -80,12 +80,20 @@ export const generateDailyQuestions = onSchedule(
           );
         }
 
-        const recentQuestions = await fetchRecentQuestions(db, 2);
-        const avoidBlock = recentQuestions.length > 0 ?
-          "\n\nDo NOT reuse these recently shown questions or their themes:\n" +
-          recentQuestions.map((q) => `- "${q}"`).join("\n") :
+        const recentThemes = await fetchRecentThemes(db, 7);
+        const avoidBlock = recentThemes.length > 0 ?
+          "\n\nDo NOT enter any of these recently used thematic territories" +
+          " — avoid even subtle variations:\n" +
+          recentThemes.map((t) => `- ${t}`).join("\n") :
           "";
         const fullPrompt = prompt + avoidBlock;
+
+        await db.collection("questionConfig").doc("usedPrompts")
+            .collection("prompts").doc(today).set({
+              themesInjected: recentThemes,
+              fullPrompt,
+              generatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
 
         const client = new Anthropic({apiKey: anthropicKey.value()});
         const response = await client.messages.create({
@@ -95,7 +103,7 @@ export const generateDailyQuestions = onSchedule(
         });
 
         const raw = response.content[0] as { type: string; text: string };
-        const parsed = JSON.parse(raw.text) as { questions: RawQuestion[] };
+        const parsed = JSON.parse(raw.text) as ClaudeResponse;
 
         if (!validate(parsed.questions)) {
           const count = parsed.questions?.length ?? 0;
@@ -105,8 +113,11 @@ export const generateDailyQuestions = onSchedule(
           );
         }
 
+        const themes = Array.isArray(parsed.themes) ? parsed.themes : [];
+
         await db.collection("questions").doc(today).set({
           questions: enrich(parsed.questions),
+          themes,
           generatedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
 

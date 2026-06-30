@@ -22,12 +22,12 @@ export function dateKeyDaysAgo(daysAgo: number): string {
 }
 
 /**
- * Fetches recent question text from the last N days to inject into the prompt.
+ * Fetches themes from the last N days of generated questions.
  * @param {admin.firestore.Firestore} db - Firestore instance.
  * @param {number} days - Number of past days to fetch.
- * @return {Promise<string[]>} Array of recent question strings.
+ * @return {Promise<string[]>} Flat array of recent theme strings.
  */
-export async function fetchRecentQuestions(
+export async function fetchRecentThemes(
     db: admin.firestore.Firestore,
     days: number
 ): Promise<string[]> {
@@ -36,9 +36,8 @@ export async function fetchRecentQuestions(
       keys.map((key) => db.collection("questions").doc(key).get())
   );
   return snaps
-      .filter((snap) => snap.exists)
-      .flatMap((snap) => (snap.data()?.questions ?? []) as RawQuestion[])
-      .map((q) => q.question);
+      .filter((snap) => snap.exists && Array.isArray(snap.data()?.themes))
+      .flatMap((snap) => snap.data()?.themes as string[]);
 }
 
 /**

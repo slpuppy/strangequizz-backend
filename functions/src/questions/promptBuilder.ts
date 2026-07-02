@@ -53,7 +53,7 @@ export function buildPrompt(
     " \"...\" }], \"themes\": [\"...\", ...] }\n\n" +
     "Hard constraints — do not exceed these limits:\n" +
     "- Each question must be 80 characters or fewer\n" +
-    "- Each answer must be 45 characters or fewer\n\n" +
+    "- Each answer must be 40 characters or fewer\n\n" +
     "The \"themes\" array must have exactly 11 entries, one per" +
     " question in order. Each entry is a short specific descriptor" +
     " of the exact concept covered (up to 8 words) — not a category" +

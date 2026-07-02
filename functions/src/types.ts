@@ -15,14 +15,12 @@ export interface QuestionBrief {
   topic: string;
   angle: string;
   answerType: string;
-  structure: string;
 }
 
 export interface GenerationConfig {
   topics: string[];
   angles: string[];
   answerTypes: string[];
-  structures: string[];
   examplePool: RawQuestion[];
   exampleCount: number;
 }

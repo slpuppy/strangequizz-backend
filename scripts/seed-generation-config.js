@@ -41,35 +41,6 @@ const answerTypes = [
   "literal interpretation — takes the question at face value in an unexpected way",
 ];
 
-// ─── Structures ───────────────────────────────────────────────────────────────
-
-const structures = [
-  "why is X called X if it's actually Y",
-  "why do we X but Y",
-  "if you do X to X, what happens",
-  "which came first, X or Y",
-  "at what point does X become Y",
-  "is X the same as Y or completely different",
-  "what's the difference between X and Y",
-  "what is X, really",
-  "when does X actually happen",
-  "who decided X was a thing",
-  "why does nobody talk about X",
-  "who is X for, really",
-  "why do we all pretend X isn't Y",
-  "why do we need X if Y already exists",
-  "what would happen if everyone stopped doing X",
-  "what if X is actually Y all along",
-  "can X exist without Y",
-  "what happens when X runs out",
-  "what would X say if it could talk",
-  "how do you know X is real",
-  "what comes after X",
-  "what's the point of X if Y",
-  "why does X feel like Y",
-  "is X actually just Y with a different name",
-  "what are we really doing when we do X",
-];
 
 // ─── Example Pool ─────────────────────────────────────────────────────────────
 
@@ -208,7 +179,6 @@ async function seed() {
     topics,
     angles,
     answerTypes,
-    structures,
     examplePool,
     exampleCount: 6,
   });
@@ -217,7 +187,6 @@ async function seed() {
   console.log(`  → ${topics.length} topics`);
   console.log(`  → ${angles.length} angles`);
   console.log(`  → ${answerTypes.length} answer types`);
-  console.log(`  → ${structures.length} structures`);
   console.log(`  → ${examplePool.length} example questions`);
   console.log(`  → exampleCount: 6`);
 

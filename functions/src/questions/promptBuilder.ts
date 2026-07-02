@@ -32,13 +32,12 @@ export function buildPrompt(
     topic: pickOne(config.topics),
     angle: pickOne(config.angles),
     answerType: pickOne(config.answerTypes),
-    structure: pickOne(config.structures),
   }));
   const briefsBlock = "\n\nGenerate exactly 11 questions, one per brief" +
     " below. Follow each brief precisely:\n" +
     briefs.map((b, i) =>
       `${i + 1}. Topic: ${b.topic} | Angle: ${b.angle}` +
-      ` | Answer type: ${b.answerType} | Structure: ${b.structure}`
+      ` | Answer type: ${b.answerType}`
     ).join("\n");
 
   const avoidBlock = recentThemes.length > 0 ?
@@ -52,6 +51,9 @@ export function buildPrompt(
     "{ \"questions\": [{ \"question\": \"...\", \"answer1\": \"...\"," +
     " \"answer2\": \"...\", \"answer3\": \"...\", \"rightAnswer\":" +
     " \"...\" }], \"themes\": [\"...\", ...] }\n\n" +
+    "Hard constraints — do not exceed these limits:\n" +
+    "- Each question must be 80 characters or fewer\n" +
+    "- Each answer must be 45 characters or fewer\n\n" +
     "The \"themes\" array must have exactly 11 entries, one per" +
     " question in order. Each entry is a short specific descriptor" +
     " of the exact concept covered (up to 8 words) — not a category" +
